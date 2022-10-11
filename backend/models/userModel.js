@@ -15,11 +15,14 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, 'Pease add a password']
     },
+    avatar: { type: String },
     isAdmin: {
       type: Boolean,
       required: true,
       default: false
-    }
+    },
+    banners: [{ filename: { type: String, required: true } }],
+    date: { type: Date, default: Date.now }
   },
   {
     timestamps: true
