@@ -1,0 +1,11 @@
+.footerPin {
+  position: relative;
+  left: 0;
+  bottom: 0;
+}
+
+@media all and (min-width: 300px) {
+  body {
+    padding: 90px 0px 90px 0px;
+  }
+}
