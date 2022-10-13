@@ -8,13 +8,15 @@ import { login } from '../features/auth/authSlice'
 import Spinner from '../components/shared/Spinner'
 import GenerateForm from '../components/form-components/GenerateForm'
 
-import useLoginForm from '../forms/form-hooks/auth/useLoginForm'
+import useForm from '../forms/form-hooks/useForm'
+import { loginFields } from '../forms/fields-and-forms/authFields'
 
 const Login = () => {
+  const initialState = { email: '', password: '' }
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const loginForm = useLoginForm({ email: '', password: '' })
+  const loginForm = useForm(loginFields, initialState)
 
   const { form, values, validateForm } = loginForm
 
@@ -48,7 +50,7 @@ const Login = () => {
 
         <section>
           <GenerateForm
-            form={loginForm.form}
+            form={form}
             onSubmit={onSubmit}
             buttonText='Log in'
             buttonVariant='outline-dark'

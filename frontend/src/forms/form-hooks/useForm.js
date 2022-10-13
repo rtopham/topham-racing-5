@@ -1,16 +1,10 @@
 import { useState } from 'react'
 
-import { getValidationStatus } from '../form-utils/formFunctions'
+import { getValidationStatus } from '../form-utils/formValidationStatus'
 
 import { validateForm, changesMade } from '../form-utils/formValidation'
 
 const useForm = (inputArray, initialState) => {
-  /*  const initialValues = {}
-  inputArray.forEach((input) => {
-    initialValues[input.name] = input.initialValue
-    //input.value = input.initialValue
-  }) */
-
   const [formData, setFormData] = useState(initialState)
 
   const onChange = (e) => {
@@ -40,14 +34,15 @@ const useForm = (inputArray, initialState) => {
     setFormData(initialState)
   }
 
-  const form = inputArray.map((input) => ({
-    ...input,
-    value: formData[input.name],
-    isValid: getValidationStatus(input, formData[input.name]).isValid,
-    isInvalid: getValidationStatus(input, formData[input.name]).isInvalid,
-    onChange: onChange,
-    reset: reset
-  }))
+  const form = inputArray.map((input) => {
+    return {
+      ...input,
+      value: formData[input.name],
+      isValid: getValidationStatus(input, formData[input.name]).isValid,
+      isInvalid: getValidationStatus(input, formData[input.name]).isInvalid,
+      onChange: onChange
+    }
+  })
 
   return { form, values: formData, reset, validateForm, changesMade }
 }

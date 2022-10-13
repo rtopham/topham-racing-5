@@ -13,7 +13,8 @@ const GenerateForm = ({
     <>
       <Form onSubmit={onSubmit}>
         {form.map((input, index) => {
-          const { reset, ...inputProps } = input
+          //remove reset and validationtype props, which throw errors
+          //const { reset, validationtype, ...inputProps } = input
           switch (input.type) {
             default:
               return (
@@ -21,13 +22,13 @@ const GenerateForm = ({
                   {useLabels && input.label && (
                     <Form.Label>{input.label} </Form.Label>
                   )}
-                  <Form.Control {...inputProps} size='sm' />
+                  <Form.Control {...input} size='sm' />
                 </Form.Group>
               )
           }
         })}
         {onSubmit && (
-          <div className='d-grid gap-2 '>
+          <div className='d-grid gap-2'>
             <Button
               type='submit'
               variant={buttonVariant || 'outline-dark'}

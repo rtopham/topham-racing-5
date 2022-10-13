@@ -1,6 +1,4 @@
 import {
-  validateForm,
-  changesMade,
   validateEmail,
   validatePassword,
   validateInputLength,
@@ -16,48 +14,13 @@ import {
   validateMeasurementWithNegativeValues,
   validateBirthDate,
   validateTime
-} from '../form-utils/formValidation'
-
-//set initial values of fields based on record passed in from function call
-export const initializeFields = (fields, record) =>
-  fields.forEach((field) => {
-    field.initialValue = record[field.name]
-  })
-
-//create an object with all the input values for ease of use
-
-export const getValues = (form) => {
-  const values = {}
-  form.forEach((input) => {
-    values[input.name] = input.value
-  })
-  return values
-}
-
-export const getResetFunction = (form) => {
-  const resetForm = () => {
-    for (let x = 0; x < form.length; x++) {
-      form[x].reset()
-    }
-  }
-  return resetForm
-}
-
-export const getFunctions = (form) => {
-  const resetForm = () => {
-    for (let x = 0; x < form.length; x++) {
-      form[x].reset()
-    }
-  }
-
-  return { resetForm, validateForm, changesMade }
-}
+} from './formValidation'
 
 export const getValidationStatus = (input, value) => {
-  const { validationType, confirmationValue, min, max, length } = input
+  const { validationtype, confirmationValue, min, max, length } = input
   let isValid
   let isInvalid
-  switch (validationType) {
+  switch (validationtype) {
     case 'inputLength':
       isValid = validateInputLength(value, length) === 'success'
       isInvalid = validateInputLength(value, length) === 'error'

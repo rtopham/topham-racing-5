@@ -2,7 +2,8 @@ export const name = {
   name: 'name',
   type: 'text',
   label: 'Name',
-  validationType: 'inputLength',
+  placeholder: 'Name',
+  validationtype: 'inputLength',
   length: 1
 }
 
@@ -12,7 +13,7 @@ export const email = {
   label: 'Email Address',
   placeholder: 'Email',
 
-  validationType: 'email'
+  validationtype: 'email'
 }
 
 export const password = {
@@ -20,7 +21,7 @@ export const password = {
   type: 'password',
   label: 'Password',
   placeholder: 'Password',
-  validationType: 'password',
+  validationtype: 'password',
 
   errormessage: '(passwords do not match)',
   helpmessage:
@@ -31,8 +32,11 @@ export const confirmPassword = {
   name: 'confirmPassword',
   type: 'password',
   label: 'Confirm Password',
-  validationType: 'password',
+  placeholder: 'Confirm Password',
+  validationtype: 'password',
   errormessage: '(passwords do not match)'
 }
 
 export const loginFields = [email, password]
+
+export const registerFields = [name, email, password, confirmPassword]

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { BIKE_ICON, CYCLIST_ICON, SIGN_OUT_ICON } from '../../utils/icons'
+import { SIGN_OUT_ICON, USER_ICON, GEAR_ICON } from '../../utils/icons'
 import Icon from '../shared/Icon'
 import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
@@ -24,8 +24,8 @@ const Header = () => {
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav>
             <Nav.Item>
-              <Nav.Link as={Link} to='/quickfit/dashboard'>
-                <Icon icon={CYCLIST_ICON} /> Dashboard
+              <Nav.Link as={Link} to='/dashboard'>
+                <Icon icon={USER_ICON} /> Dashboard
               </Nav.Link>
             </Nav.Item>
 
@@ -62,7 +62,7 @@ const Header = () => {
     <Navbar collapseOnSelect expand='lg' variant='dark' bg='dark' fixed='top'>
       <Container>
         <Navbar.Brand as={Link} to='/'>
-          <Icon icon={BIKE_ICON} /> Topham Racing
+          <Icon icon={GEAR_ICON} /> Topham Racing
         </Navbar.Brand>
         {user ? authLinks : guestLinks}
       </Container>
