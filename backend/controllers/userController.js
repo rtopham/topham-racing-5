@@ -58,6 +58,9 @@ const loginUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      isAdmin: user.isAdmin,
+      avatar: user.avatar,
+      banners: user.banners,
       token: generateToken(user._id)
     })
   } else {
@@ -79,8 +82,47 @@ const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' })
 }
 
+// @desc    Update Profile of Logged In User
+// @route   /api/users/profile
+// @access  private
+
+const updateProfile = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body
+
+  // Validation
+  if (!name || !email) {
+    res.status(400)
+    throw new Error('Please include all fields')
+  }
+  //Find if user already exists
+  const user = await User.findOne({ email })
+  if (!user) {
+    res.status(400)
+    throw new Error('User not found.')
+  }
+
+  if (password) {
+    //Hash password
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+    req.body.password = hashedPassword
+  }
+  if (user) {
+    const updatedProfile = await User.findByIdAndUpdate(
+      req.user._id,
+      req.body,
+      {
+        new: true
+      }
+    )
+
+    res.status(200).json(updatedProfile)
+  }
+})
+
 module.exports = {
   registerUser,
   loginUser,
-  getCurrentUser
+  getCurrentUser,
+  updateProfile
 }

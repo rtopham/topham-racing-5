@@ -21,6 +21,8 @@ app.get('/', (req, res) => {
 //Routes
 app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/races', require('./routes/raceRoutes'))
+app.use('/api/strava', require('./routes/stravaRoutes'))
+app.use('/api/banners', require('./routes/bannerRoutes'))
 
 //ErrorHandler
 app.use(errorHandler)

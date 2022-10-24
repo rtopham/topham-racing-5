@@ -29,10 +29,31 @@ const login = async (userData) => {
 
 const logout = () => localStorage.removeItem('user')
 
+//Update User Profile
+const updateProfile = async (profileData, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+  const response = await axios.put(API_URL + '/profile', profileData, config)
+
+  //Update local storage to reflect the changes.
+
+  if (response.data) {
+    const updatedUserObject = { ...response.data, token }
+    localStorage.setItem('user', JSON.stringify(updatedUserObject))
+  }
+
+  return { ...response.data, token }
+}
+
 const authService = {
   register,
   login,
-  logout
+  logout,
+  updateProfile
 }
 
 export default authService

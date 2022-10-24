@@ -1,11 +1,7 @@
-import Container from 'react-bootstrap/Container'
+import { Navigate } from 'react-router-dom'
 
 const Home = () => {
-  return (
-    <Container>
-      <div className='text-center'>Home Page</div>
-    </Container>
-  )
+  return <Navigate to='/5bd91a027b59b61efe06ae3d' />
 }
 
 export default Home

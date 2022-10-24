@@ -24,7 +24,7 @@ const Header = () => {
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav>
             <Nav.Item>
-              <Nav.Link as={Link} to='/dashboard'>
+              <Nav.Link as={Link} to='/dashboard/5bd91a027b59b61efe06ae3d'>
                 <Icon icon={USER_ICON} /> Dashboard
               </Nav.Link>
             </Nav.Item>
@@ -40,7 +40,7 @@ const Header = () => {
     </>
   )
 
-  const guestLinks = (
+  /*   const guestLinksWithRegistration = (
     <>
       <Nav>
         <Nav.Item>
@@ -56,12 +56,30 @@ const Header = () => {
         </Nav.Item>
       </Nav>
     </>
+  ) */
+
+  const guestLinks = (
+    <>
+      <Nav>
+        <Nav.Item>
+          <Nav.Link as={Link} to='/stats/5bd91a027b59b61efe06ae3d'>
+            Stats
+          </Nav.Link>
+        </Nav.Item>
+
+        <Nav.Item>
+          <Nav.Link as={Link} to='/strava/5bd91a027b59b61efe06ae3d'>
+            Strava
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+    </>
   )
 
   return (
     <Navbar collapseOnSelect expand='lg' variant='dark' bg='dark' fixed='top'>
       <Container>
-        <Navbar.Brand as={Link} to='/'>
+        <Navbar.Brand as={Link} to='/5bd91a027b59b61efe06ae3d'>
           <Icon icon={GEAR_ICON} /> Topham Racing
         </Navbar.Brand>
         {user ? authLinks : guestLinks}

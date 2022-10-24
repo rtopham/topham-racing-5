@@ -7,7 +7,7 @@ const Race = require('../models/raceModel')
 // @access  private
 
 const getRaces = asyncHandler(async (req, res) => {
-  const races = await Race.find({ user: req.user.id })
+  const races = await Race.find({ user: req.user.id }).sort({ race_date: -1 })
 
   res.status(200).json(races)
 })
@@ -23,14 +23,16 @@ const getRacesByUser = asyncHandler(async (req, res) => {
     res.status(401)
     throw new Error('User not found')
   }
-  const races = await Race.find({ postedBy: req.params.id })
+  const races = await Race.find({ postedBy: req.params.id }).sort({
+    race_date: -1
+  })
 
   res.status(200).json(races)
 })
 
 // @desc    Get Race
 // @route   GET /api/races/:id
-// @access  public
+// @access  private
 
 const getRace = asyncHandler(async (req, res) => {
   const race = await Race.findById(req.params.id)
@@ -40,10 +42,10 @@ const getRace = asyncHandler(async (req, res) => {
     throw new Error('Race not found')
   }
 
-  /*   if (race.postedBy.toString() !== req.user.id) {
+  if (race.postedBy.toString() !== req.user.id) {
     res.status(401)
     throw new Error('Not Authorized')
-  } */
+  }
 
   res.status(200).json(race)
 })
@@ -122,9 +124,9 @@ const deleteRace = asyncHandler(async (req, res) => {
     throw new Error('Not Authorized')
   }
 
-  await race.remove()
+  const deletedRace = await race.remove()
 
-  res.status(200).json({ success: true })
+  res.status(200).json(deletedRace)
 })
 
 module.exports = {

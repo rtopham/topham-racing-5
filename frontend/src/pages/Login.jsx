@@ -6,7 +6,7 @@ import Icon from '../components/shared/Icon'
 import { useSelector, useDispatch } from 'react-redux'
 import { login } from '../features/auth/authSlice'
 import Spinner from '../components/shared/Spinner'
-import GenerateForm from '../components/form-components/GenerateForm'
+import GenerateForm from '../forms/form-components/GenerateForm'
 
 import useForm from '../forms/form-hooks/useForm'
 import { loginFields } from '../forms/fields-and-forms/authFields'

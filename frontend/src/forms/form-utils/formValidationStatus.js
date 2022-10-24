@@ -17,7 +17,8 @@ import {
 } from './formValidation'
 
 export const getValidationStatus = (input, value) => {
-  const { validationtype, confirmationValue, min, max, length } = input
+  const { validationtype, confirmationvalue, min, max, length } = input
+
   let isValid
   let isInvalid
   switch (validationtype) {
@@ -34,8 +35,8 @@ export const getValidationStatus = (input, value) => {
       isInvalid = validatePassword(value) === 'error'
       break
     case 'confirmPassword':
-      isValid = validateConfirmPassword(value, confirmationValue) === 'success'
-      isInvalid = validateConfirmPassword(value, confirmationValue) === 'error'
+      isValid = validateConfirmPassword(value, confirmationvalue) === 'success'
+      isInvalid = validateConfirmPassword(value, confirmationvalue) === 'error'
       break
     case 'phone':
       isValid = validatePhone(value) === 'success'
@@ -72,8 +73,8 @@ export const getValidationStatus = (input, value) => {
       isInvalid = validateWebsite(value, length) === 'error'
       break
     case 'confirmationText':
-      isValid = validateConfirmationText(value, confirmationValue) === 'success'
-      isInvalid = validateConfirmationText(value, confirmationValue) === 'error'
+      isValid = validateConfirmationText(value, confirmationvalue) === 'success'
+      isInvalid = validateConfirmationText(value, confirmationvalue) === 'error'
       break
     case 'birthDate':
       isValid = validateBirthDate(value) === 'success'

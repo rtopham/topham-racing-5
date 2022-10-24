@@ -1,3 +1,3 @@
-const Icon = ({ icon }) => <i className={icon} />
+const Icon = ({ icon, className }) => <i className={icon + ' ' + className} />
 
 export default Icon

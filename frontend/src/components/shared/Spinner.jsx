@@ -1,8 +1,16 @@
-const Spinner = () => {
+import { Spinner as BSSpinner } from 'react-bootstrap'
+
+const Spinner = ({ message, variant }) => {
   return (
-    <div className='loadingSpinnerContainer'>
-      <div className='loadingSpinner'></div>
-    </div>
+    <>
+      <BSSpinner
+        animation='border'
+        variant={variant || 'dark'}
+        className='d-block mx-auto'
+      />
+
+      <p className='mt-3 text-center'>{message}</p>
+    </>
   )
 }
 

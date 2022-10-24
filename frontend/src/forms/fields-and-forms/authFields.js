@@ -23,9 +23,14 @@ export const password = {
   placeholder: 'Password',
   validationtype: 'password',
 
-  errormessage: '(passwords do not match)',
-  helpmessage:
-    'Password must contain at least eight characters, one uppercase letter, one lowercase letter and one number. Special characters are allowed.'
+  errormessage: '(passwords do not match)'
+}
+
+export const passwordHelpMessage = {
+  name: 'passwordHelpMessage',
+  as: 'span',
+  type: 'formtext',
+  text: 'Password must contain at least eight characters, one uppercase letter, one lowercase letter and one number. Special characters are allowed.'
 }
 
 export const confirmPassword = {
@@ -40,3 +45,11 @@ export const confirmPassword = {
 export const loginFields = [email, password]
 
 export const registerFields = [name, email, password, confirmPassword]
+
+export const profileFields = [name, email]
+
+export const editPasswordFields = [
+  password,
+  passwordHelpMessage,
+  confirmPassword
+]

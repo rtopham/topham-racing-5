@@ -8,6 +8,10 @@ const useForm = (inputArray, initialState) => {
   const [formData, setFormData] = useState(initialState)
 
   const onChange = (e) => {
+    //console.log(e.target.type)
+    // console.log(e.target.name)
+    //console.log(e.target.value)
+    // console.log(e.target.checked)
     switch (e.target.type) {
       case 'checkbox':
       case 'switch':

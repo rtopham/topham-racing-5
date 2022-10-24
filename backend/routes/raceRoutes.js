@@ -24,7 +24,7 @@ router.route('/by-user/:id').get(getRacesByUser)
 
 router
   .route('/:id')
-  .get(getRace)
+  .get(protect, getRace)
   .put(protect, updateRace)
   .delete(protect, deleteRace)
 

@@ -6,7 +6,7 @@ import Icon from '../components/shared/Icon'
 import { useSelector, useDispatch } from 'react-redux'
 import { register } from '../features/auth/authSlice'
 import Spinner from '../components/shared/Spinner'
-import GenerateForm from '../components/form-components/GenerateForm'
+import GenerateForm from '../forms/form-components/GenerateForm'
 import { checkPasswordMatch } from '../forms/form-utils/formValidation'
 
 import useForm from '../forms/form-hooks/useForm'
@@ -27,8 +27,6 @@ const Register = () => {
   const { form, values, validateForm } = registerForm
 
   const { isLoading } = useSelector((state) => state.auth)
-
-  console.log(registerForm)
 
   const onSubmit = (e) => {
     e.preventDefault()

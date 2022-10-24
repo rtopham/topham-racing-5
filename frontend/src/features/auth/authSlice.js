@@ -40,6 +40,20 @@ export const logout = createAction('auth/logout', async () => {
   return {}
 })
 
+//Update User Profile
+
+export const updateProfile = createAsyncThunk(
+  'auth/profile',
+  async (profileData, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await authService.updateProfile(profileData, token)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+  }
+)
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -49,7 +63,7 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(register.pending, (state) => {
-        state.isloading = true
+        state.isLoading = true
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false
@@ -59,7 +73,7 @@ export const authSlice = createSlice({
         state.isLoading = false
       })
       .addCase(login.pending, (state) => {
-        state.isloading = true
+        state.isLoading = true
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false
@@ -67,6 +81,13 @@ export const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false
+      })
+      .addCase(updateProfile.pending, (state, action) => {
+        state.isLoading = true
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.user = action.payload
       })
   }
 })
