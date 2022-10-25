@@ -17,6 +17,7 @@ import Stats from './pages/Stats'
 import Strava from './pages/Strava'
 import Banner from './components/banners/Banner'
 import SandBox from './pages/SandBox'
+import ManageBanners from './pages/ManageBanners'
 
 import './App.css'
 
@@ -34,6 +35,7 @@ function App() {
             <Route path='/add-race' element={null} />
             <Route path='/edit-races' element={null} />
             <Route path='/sandbox' element={null} />
+            <Route path='/banners' element={null} />
             <Route path='/:userId' element={<Banner />} />
             <Route path='/stats/:userId' element={<Banner />} />
             <Route path='/strava/:userId' element={<Banner />} />
@@ -68,6 +70,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <EditRaces />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path='/banners'
+              element={
+                <PrivateRoute>
+                  <ManageBanners />
                 </PrivateRoute>
               }
             />

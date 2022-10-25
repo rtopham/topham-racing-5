@@ -28,7 +28,16 @@ const Banner = () => {
 
   if (!banners) return null
 
-  return <Image style={{ maxWidth: '930px' }} className='mb-3' src={banner} />
+  const divStyle = {
+    height: '220px',
+    width: '100%'
+  }
+
+  return (
+    <div className={divStyle}>
+      <Image style={divStyle} className='mb-3' src={banner} />
+    </div>
+  )
 }
 
 export default Banner

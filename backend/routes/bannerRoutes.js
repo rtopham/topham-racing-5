@@ -1,8 +1,16 @@
 const express = require('express')
 const router = express.Router()
-const { getBannersByUser } = require('../controllers/bannerController')
+const {
+  getBannersByUser,
+  getBanners
+} = require('../controllers/bannerController')
 
-//const { protect } = require('../middleware/authMiddleware')
+const { protect } = require('../middleware/authMiddleware')
+
+//Get all banners for the logged in user
+//Add Banner for looged in user
+
+router.route('/').get(protect, getBanners)
 
 //Get banners for a user by userId
 

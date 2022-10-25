@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
+const path = require('path')
 
 // @desc    Register a new user
 // @route   /api/users
@@ -120,9 +121,81 @@ const updateProfile = asyncHandler(async (req, res) => {
   }
 })
 
+//@route    POST api/users/banners
+//@desc     Add new banner and handle upload
+//@access   Private
+
+const addBanner = asyncHandler(async (req, res) => {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    res.status(400)
+    throw new Error('No files uploaded')
+  }
+
+  const bannerFile = req.files.banner
+  let imgUrl = ''
+
+  const saveBanner = async () => {
+    let possible = 'abcdefghijklmnopqrstuvwxyz0123456789'
+    for (let i = 0; i < 6; i += 1) {
+      imgUrl += possible.charAt(Math.floor(Math.random() * possible.length))
+    }
+
+    // Check to See if filename exists
+    const existingBanners = await User.find({
+      'banners.filename': { $regex: imgUrl }
+    })
+    if (existingBanners.length > 0) saveBanner()
+    else {
+      // Upload and save file to file system.
+      const ext = path.extname(bannerFile.name).toLowerCase()
+      //const targetPath = path.resolve(`uploads//banners/${imgUrl}${ext}`)
+      //const targetPath = path.resolve(`/banners/${imgUrl}${ext}`)
+      const targetPath = path.resolve(
+        `../topham-racing-5/frontend/public/banners/${imgUrl}${ext}`
+      )
+
+      bannerFile.mv(targetPath, async (error) => {
+        if (error) {
+          console.error(error)
+          res.writeHead(500, {
+            'Content-Type': 'application/json'
+          })
+          res.end(JSON.stringify({ status: 'error', message: error }))
+          return
+        }
+
+        const newBanner = {
+          filename: imgUrl + ext
+        }
+        const user = await User.findOne({ _id: req.user.id })
+        if (!user) {
+          res.status(400)
+          throw new Error('User not found.')
+        }
+
+        if (user) {
+          user.banners.unshift(newBanner)
+          const updatedProfile = await User.findByIdAndUpdate(
+            req.user._id,
+            user,
+            {
+              new: true
+            }
+          )
+
+          res.status(200).json(updatedProfile)
+        }
+      })
+    }
+  }
+
+  saveBanner()
+})
+
 module.exports = {
   registerUser,
   loginUser,
   getCurrentUser,
-  updateProfile
+  updateProfile,
+  addBanner
 }

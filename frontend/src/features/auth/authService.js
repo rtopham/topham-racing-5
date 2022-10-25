@@ -37,9 +37,33 @@ const updateProfile = async (profileData, token) => {
     }
   }
 
-  const response = await axios.put(API_URL + '/profile', profileData, config)
+  const response = await axios.put(API_URL + 'profile', profileData, config)
 
   //Update local storage to reflect the changes.
+
+  if (response.data) {
+    const updatedUserObject = { ...response.data, token }
+    localStorage.setItem('user', JSON.stringify(updatedUserObject))
+  }
+
+  return { ...response.data, token }
+}
+
+//Add Banner
+
+const addBanner = async (formData, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data'
+    }
+  }
+  const response = await axios.post(API_URL + 'banners', formData, config)
+
+  //Update local storage to reflect the changes.
+
+  console.log(response)
 
   if (response.data) {
     const updatedUserObject = { ...response.data, token }
@@ -53,7 +77,8 @@ const authService = {
   register,
   login,
   logout,
-  updateProfile
+  updateProfile,
+  addBanner
 }
 
 export default authService

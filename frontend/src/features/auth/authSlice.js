@@ -54,6 +54,19 @@ export const updateProfile = createAsyncThunk(
   }
 )
 
+// Add New Banner
+export const addBanner = createAsyncThunk(
+  'auth/addBanner',
+  async (formData, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await authService.addBanner(formData, token)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+  }
+)
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -86,6 +99,13 @@ export const authSlice = createSlice({
         state.isLoading = true
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.user = action.payload
+      })
+      .addCase(addBanner.pending, (state, action) => {
+        state.isLoading = true
+      })
+      .addCase(addBanner.fulfilled, (state, action) => {
         state.isLoading = false
         state.user = action.payload
       })
