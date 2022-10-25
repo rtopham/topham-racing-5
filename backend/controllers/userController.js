@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
 const path = require('path')
+const fs = require('fs')
 
 // @desc    Register a new user
 // @route   /api/users
@@ -192,10 +193,41 @@ const addBanner = asyncHandler(async (req, res) => {
   saveBanner()
 })
 
+//@route    DELETE api/users/banners/bannerId
+//@desc     Delete Banner
+//@access   Private
+
+const deleteBanner = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ _id: req.user.id })
+
+  if (!user) {
+    res.status(400)
+    throw new Error('User not found.')
+  }
+
+  const removeIndex = user.banners
+    .map((banner) => banner.id)
+    .indexOf(req.params.bannerId)
+
+  const fileName = user.banners[removeIndex].filename
+
+  fs.unlink(
+    path.resolve(`../topham-racing-5/frontend/public/banners/${fileName}`),
+    (err) => {
+      if (err) throw new Error(err)
+    }
+  )
+
+  user.banners.splice(removeIndex, 1)
+  await user.save()
+  res.status(200).json(user)
+})
+
 module.exports = {
   registerUser,
   loginUser,
   getCurrentUser,
   updateProfile,
-  addBanner
+  addBanner,
+  deleteBanner
 }

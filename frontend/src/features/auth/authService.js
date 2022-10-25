@@ -63,7 +63,23 @@ const addBanner = async (formData, token) => {
 
   //Update local storage to reflect the changes.
 
-  console.log(response)
+  if (response.data) {
+    const updatedUserObject = { ...response.data, token }
+    localStorage.setItem('user', JSON.stringify(updatedUserObject))
+  }
+
+  return { ...response.data, token }
+}
+
+//Delete Race
+const deleteBanner = async (bannerId, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+  const response = await axios.delete(API_URL + 'banners/' + bannerId, config)
 
   if (response.data) {
     const updatedUserObject = { ...response.data, token }
@@ -78,7 +94,8 @@ const authService = {
   login,
   logout,
   updateProfile,
-  addBanner
+  addBanner,
+  deleteBanner
 }
 
 export default authService

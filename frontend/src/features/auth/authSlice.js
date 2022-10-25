@@ -67,6 +67,19 @@ export const addBanner = createAsyncThunk(
   }
 )
 
+// Delete Banner
+export const deleteBanner = createAsyncThunk(
+  'auth/deleteBanner',
+  async (bannerId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await authService.deleteBanner(bannerId, token)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+  }
+)
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -106,6 +119,10 @@ export const authSlice = createSlice({
         state.isLoading = true
       })
       .addCase(addBanner.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.user = action.payload
+      })
+      .addCase(deleteBanner.fulfilled, (state, action) => {
         state.isLoading = false
         state.user = action.payload
       })

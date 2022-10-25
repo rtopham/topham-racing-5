@@ -20,5 +20,8 @@ Simplified folder structure
 Added Dashboard functionality
 Added Sandbox
 
-10/25/2022
+10/25/2022--sixth commit
 Added banner management with local file storage
+
+10/25/2022--seventh commit
+Added banner delete functionality for local file storage

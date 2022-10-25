@@ -1,10 +1,20 @@
 import DeleteRecordButton from '../../components/shared/DeleteRecordButton'
+import { deleteBanner } from '../../features/auth/authSlice'
+import { useDispatch } from 'react-redux'
+import { toast } from 'react-toastify'
 
 const BannerRow = ({ banner }) => {
   const imgUrl = '/banners/' + banner.filename
 
+  const dispatch = useDispatch()
+
   const deleteFunction = () => {
-    console.log('Delete the banner')
+    dispatch(deleteBanner(banner._id))
+      .unwrap()
+      .then(() => {
+        toast.success('Banner deleted!')
+      })
+      .catch(toast.error)
   }
 
   const divStyle = {
