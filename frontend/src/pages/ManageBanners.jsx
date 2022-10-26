@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-
+import Image from 'react-bootstrap/Image'
 import Spinner from '../components/shared/Spinner'
 import BannerList from '../components/banners/BannerList'
 import Container from 'react-bootstrap/Container'

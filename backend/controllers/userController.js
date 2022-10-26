@@ -5,6 +5,22 @@ const User = require('../models/userModel')
 const path = require('path')
 const fs = require('fs')
 
+const {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+  DeleteObjectCommand,
+  DeleteObjectsCommand
+} = require('@aws-sdk/client-s3')
+
+const bucketName = process.env.AWS_BUCKET_NAME
+const region = process.env.AWS_BUCKET_REGION
+const folder = process.env.AWS_FOLDER_NAME
+
+const s3 = new S3Client({
+  region: region
+})
+
 // @desc    Register a new user
 // @route   /api/users
 // @access  public
@@ -147,11 +163,54 @@ const addBanner = asyncHandler(async (req, res) => {
     })
     if (existingBanners.length > 0) saveBanner()
     else {
-      // Upload and save file to file system.
+      // Upload and save file
       const ext = path.extname(bannerFile.name).toLowerCase()
-      //const targetPath = path.resolve(`uploads//banners/${imgUrl}${ext}`)
-      //const targetPath = path.resolve(`/banners/${imgUrl}${ext}`)
-      const targetPath = path.resolve(
+
+      const newBanner = {
+        filename: imgUrl + ext
+      }
+
+      //Upload to AWS S3
+
+      const fileContent = bannerFile.data
+
+      const uploadParams = {
+        Bucket: bucketName,
+        Key: folder + imgUrl + ext,
+        Body: fileContent
+      }
+      const run = async () => {
+        try {
+          const data = await s3.send(new PutObjectCommand(uploadParams))
+        } catch (err) {
+          console.log('Error', err)
+        }
+      }
+      run()
+
+      //Update banner list in user profile
+      const user = await User.findOne({ _id: req.user.id })
+      if (!user) {
+        res.status(400)
+        throw new Error('User not found.')
+      }
+
+      if (user) {
+        user.banners.unshift(newBanner)
+        const updatedProfile = await User.findByIdAndUpdate(
+          req.user._id,
+          user,
+          {
+            new: true
+          }
+        )
+
+        res.status(200).json(updatedProfile)
+      }
+
+      //Save file to local file system
+
+      /*      const targetPath = path.resolve(
         `../topham-racing-5/frontend/public/banners/${imgUrl}${ext}`
       )
 
@@ -165,28 +224,7 @@ const addBanner = asyncHandler(async (req, res) => {
           return
         }
 
-        const newBanner = {
-          filename: imgUrl + ext
-        }
-        const user = await User.findOne({ _id: req.user.id })
-        if (!user) {
-          res.status(400)
-          throw new Error('User not found.')
-        }
-
-        if (user) {
-          user.banners.unshift(newBanner)
-          const updatedProfile = await User.findByIdAndUpdate(
-            req.user._id,
-            user,
-            {
-              new: true
-            }
-          )
-
-          res.status(200).json(updatedProfile)
-        }
-      })
+      }) */
     }
   }
 
@@ -211,16 +249,44 @@ const deleteBanner = asyncHandler(async (req, res) => {
 
   const fileName = user.banners[removeIndex].filename
 
-  fs.unlink(
+  //Revmove from local filesystem
+
+  /*   fs.unlink(
     path.resolve(`../topham-racing-5/frontend/public/banners/${fileName}`),
     (err) => {
       if (err) throw new Error(err)
     }
-  )
+  ) */
+
+  //Delete from S3
+
+  const deleteParams = {
+    Bucket: bucketName,
+    Key: folder + fileName
+  }
+
+  const response = await s3.send(new DeleteObjectCommand(deleteParams))
+
+  //Update banner list in user profile
 
   user.banners.splice(removeIndex, 1)
   await user.save()
   res.status(200).json(user)
+})
+
+//@route GET api/users/banners/:key
+//@desc   Get page image from S3
+//@access Private
+
+const getBanner = asyncHandler(async (req, res) => {
+  const downloadParams = {
+    Bucket: bucketName,
+    Key: folder + req.params.key
+  }
+
+  const s3Object = await s3.send(new GetObjectCommand(downloadParams))
+
+  s3Object.Body.pipe(res)
 })
 
 module.exports = {
@@ -229,5 +295,6 @@ module.exports = {
   getCurrentUser,
   updateProfile,
   addBanner,
-  deleteBanner
+  deleteBanner,
+  getBanner
 }

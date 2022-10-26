@@ -12,6 +12,13 @@ const Banner = () => {
 
   const [banner, setBanner] = useState()
 
+  //  const localImgUrl = '/banners/'
+  const awsImgUrl = '/api/users/banners/'
+
+  //const imgUrl = localImgUrl
+
+  const imgUrl = awsImgUrl
+
   useEffect(() => {
     dispatch(getBannersByUser(userId))
   }, [dispatch, userId])
@@ -19,18 +26,18 @@ const Banner = () => {
   useEffect(() => {
     if (banners) {
       setBanner(
-        `/banners/${
+        `${imgUrl}${
           banners[Math.floor(Math.random() * banners.length)].filename
         }`
       )
     }
-  }, [banners, location])
+  }, [banners, location, imgUrl])
 
   if (!banners) return null
 
   const divStyle = {
     height: '220px',
-    width: '100%'
+    width: '930px'
   }
 
   return (

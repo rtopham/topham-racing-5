@@ -4,7 +4,12 @@ import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 
 const BannerRow = ({ banner }) => {
-  const imgUrl = '/banners/' + banner.filename
+  const localImgUrl = '/banners/' + banner.filename
+  const awsImgUrl = `/api/users/banners/${banner.filename}`
+
+  //const imgUrl = localImgUrl
+
+  const imgUrl = awsImgUrl
 
   const dispatch = useDispatch()
 

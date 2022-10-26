@@ -6,7 +6,8 @@ const {
   getCurrentUser,
   updateProfile,
   addBanner,
-  deleteBanner
+  deleteBanner,
+  getBanner
 } = require('../controllers/userController')
 
 const { protect } = require('../middleware/authMiddleware')
@@ -17,5 +18,6 @@ router.get('/profile', protect, getCurrentUser)
 router.put('/profile', protect, updateProfile)
 router.post('/banners', protect, addBanner)
 router.delete('/banners/:bannerId', protect, deleteBanner)
+router.get('/banners/:key', getBanner)
 
 module.exports = router
