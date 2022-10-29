@@ -109,17 +109,3 @@ export const loginFields = [email, password]
 export const registerFields = [name, email, password, confirmPassword]
 
 export const profileFields = [name, email]
-
-//export const sandBoxFields = [name, email, password, confirmPassword, selection]
-export const sandBoxFields = [
-  selection,
-  radioButtons,
-  mySwitch,
-  checkBox,
-  checkBox2,
-  numberInput,
-  dateInput,
-  colorInput,
-  textBox,
-  time
-]

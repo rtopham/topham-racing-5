@@ -29,3 +29,9 @@ Added banner delete functionality for local file storage
 10/25/2022--eighth commit
 Added AWS S3 storage for banners
 Disabled local server storage of banners
+
+10/28/2022
+
+Removed sandbox
+Deleted extraneous files
+Deleted unused variables.

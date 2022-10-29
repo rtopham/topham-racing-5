@@ -28,8 +28,6 @@ const AddRace = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  //console.log(raceForm)
-
   const onSubmit = (e) => {
     e.preventDefault()
     dispatch(createRace(values))

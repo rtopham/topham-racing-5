@@ -79,7 +79,7 @@ const Header = () => {
   return (
     <Navbar collapseOnSelect expand='lg' variant='dark' bg='dark' fixed='top'>
       <Container>
-        <Navbar.Brand as={Link} to='/5bd91a027b59b61efe06ae3d'>
+        <Navbar.Brand as={Link} to='/races/5bd91a027b59b61efe06ae3d'>
           <Icon icon={GEAR_ICON} /> Topham Racing
         </Navbar.Brand>
         {user ? authLinks : guestLinks}

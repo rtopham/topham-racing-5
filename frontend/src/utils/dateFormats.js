@@ -86,7 +86,6 @@ export const yearMonthDayEval = (date) => {
 
 export const todayStamp = () => {
   const stamp = Math.floor(new Date())
-  //  console.log(stamp)
   return stamp
 }
 

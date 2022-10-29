@@ -22,7 +22,7 @@ const RaceForm = ({ race }) => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    console.log(values)
+
     dispatch(updateRace(values))
       .unwrap()
       .then(() => {

@@ -7,7 +7,6 @@ import {
   PLUS_ICON,
   USER_ICON,
   LOCK_ICON,
-  SAND_BOX_ICON,
   IMAGE_ICON
 } from '../utils/icons'
 import Container from 'react-bootstrap/Container'
@@ -148,14 +147,6 @@ const Dashboard = () => {
         <div className='d-grid gap-2 mb-3'>
           <Button variant='outline-dark'>
             <Icon icon={IMAGE_ICON} /> Manage Banners
-          </Button>
-        </div>
-      </Link>
-
-      <Link to='/sandbox' style={{ textDecoration: 'none' }}>
-        <div className='d-grid gap-2 mb-3'>
-          <Button variant='outline-dark'>
-            <Icon icon={SAND_BOX_ICON} /> Sand Box
           </Button>
         </div>
       </Link>

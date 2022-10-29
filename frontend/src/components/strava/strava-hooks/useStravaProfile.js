@@ -27,7 +27,6 @@ const useStravaProfile = (userId) => {
       const { strava_token_expires_at, strava_refresh_token } = stravaProfile
 
       if (strava_token_expires_at < secondsSinceEpoch) {
-        console.log('Token Expired')
         const newTokens = await axios.post(
           `https://www.strava.com/api/v3/oauth/token?client_id=${stravaClientId}&client_secret=${stravaClientSecret}&grant_type=refresh_token&refresh_token=${strava_refresh_token}`
         )

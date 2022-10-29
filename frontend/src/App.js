@@ -16,7 +16,6 @@ import UserRaces from './pages/UserRaces'
 import Stats from './pages/Stats'
 import Strava from './pages/Strava'
 import Banner from './components/banners/Banner'
-import SandBox from './pages/SandBox'
 import ManageBanners from './pages/ManageBanners'
 
 import './App.css'
@@ -34,21 +33,21 @@ function App() {
             <Route path='/dashboard/:userId' element={null} />
             <Route path='/add-race' element={null} />
             <Route path='/edit-races' element={null} />
-            <Route path='/sandbox' element={null} />
+
             <Route path='/banners' element={null} />
-            <Route path='/:userId' element={<Banner />} />
+            <Route path='/races/:userId' element={<Banner />} />
             <Route path='/stats/:userId' element={<Banner />} />
             <Route path='/strava/:userId' element={<Banner />} />
             <Route path='/strava/:userId' element={<Banner />} />
           </Routes>
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/:userId' element={<UserRaces />} />
+            <Route exact path='/races/:userId' element={<UserRaces />} />
             <Route path='/stats/:userId' element={<Stats />} />
             <Route path='/strava/:userId' element={<Strava />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
-            <Route path='/sandbox' element={<SandBox />} />
+
             <Route
               path='/add-race'
               element={
@@ -89,6 +88,7 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path='*' element={<p>Not Found</p>} />
           </Routes>
         </Container>
         <Footer />
