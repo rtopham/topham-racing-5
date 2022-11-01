@@ -22,7 +22,7 @@ import { toast } from 'react-toastify'
 import useForm from '../forms/form-hooks/useForm'
 
 import { updateProfile } from '../features/auth/authSlice'
-import useStravaProfile from '../components/strava/strava-hooks/useStravaProfile'
+import useStrava from '../components/strava/strava-hooks/useStrava'
 import { updateStravaProfile } from '../features/strava/stravaSlice'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -30,7 +30,7 @@ import { useSelector, useDispatch } from 'react-redux'
 const Dashboard = () => {
   const { userId } = useParams()
   const { user } = useSelector((state) => state.auth)
-  const [stravaProfile, checkTokens] = useStravaProfile(userId)
+  const stravaProfile = useStrava(userId)
   const { name, email } = user
   const editProfileForm = useForm(profileFields, { name, email })
   const editPasswordForm = useForm(editPasswordFields, {
@@ -140,7 +140,6 @@ const Dashboard = () => {
       </div>
       <EditStravaDetailsButton
         stravaProfile={stravaProfile}
-        checkTokens={checkTokens}
         editStravaFunction={editStravaFunction}
       />
       <Link to='/banners' style={{ textDecoration: 'none' }}>

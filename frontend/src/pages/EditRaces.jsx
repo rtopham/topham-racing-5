@@ -4,6 +4,7 @@ import { getRaces } from '../features/races/raceSlice'
 import Spinner from '../components/shared/Spinner'
 import RaceTable from '../components/races/RaceTable'
 import Container from 'react-bootstrap/Container'
+import { toast } from 'react-toastify'
 
 const EditRaces = () => {
   const { races } = useSelector((state) => state.races)
@@ -11,7 +12,7 @@ const EditRaces = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getRaces())
+    dispatch(getRaces()).unwrap().catch(toast.error)
   }, [dispatch])
 
   if (!races) {

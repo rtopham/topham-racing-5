@@ -12,7 +12,7 @@ import { deleteRace, updateRace } from '../../features/races/raceSlice'
 import { toast } from 'react-toastify'
 import { yearMonthDayUTC } from '../../utils/dateFormats'
 
-function RaceRow({ race, stravaProfile, checkTokens, editMode }) {
+function RaceRow({ race, stravaProfile, editMode }) {
   const { race_name, race_date, series, category, time, rank } = race
 
   const editRaceForm = useForm(raceFields, {
@@ -53,11 +53,7 @@ function RaceRow({ race, stravaProfile, checkTokens, editMode }) {
           <>{race_name}</>
         )}
         {!editMode && (
-          <StravaIconLink
-            race={race}
-            stravaProfile={stravaProfile}
-            checkTokens={checkTokens}
-          />
+          <StravaIconLink race={race} stravaProfile={stravaProfile} />
         )}
         {editMode && (
           <span className='float-end'>

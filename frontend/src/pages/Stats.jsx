@@ -5,6 +5,7 @@ import { getRacesByUser } from '../features/races/raceSlice'
 import YearToDate from '../components/stats/YearToDate'
 import AllTime from '../components/stats/AllTime'
 import Spinner from '../components/shared/Spinner'
+import { toast } from 'react-toastify'
 
 const Stats = () => {
   const { races } = useSelector((state) => state.races)
@@ -14,7 +15,7 @@ const Stats = () => {
 
   useEffect(() => {
     if (!races) {
-      dispatch(getRacesByUser(userId))
+      dispatch(getRacesByUser(userId)).unwrap().catch(toast.error)
     }
   }, [dispatch, userId, races])
 

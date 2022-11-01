@@ -2,7 +2,7 @@ import React from 'react'
 import RaceRow from './RaceRow'
 import Table from 'react-bootstrap/Table'
 
-const RaceTable = ({ races, stravaProfile, checkTokens, editMode }) => {
+const RaceTable = ({ races, stravaProfile, editMode }) => {
   return (
     <>
       <Table size='sm' striped bordered hover>
@@ -22,7 +22,6 @@ const RaceTable = ({ races, stravaProfile, checkTokens, editMode }) => {
               key={race._id}
               race={race}
               stravaProfile={stravaProfile}
-              checkTokens={checkTokens}
               editMode={editMode}
             />
           ))}

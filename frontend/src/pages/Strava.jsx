@@ -2,18 +2,18 @@ import Spinner from '../components/shared/Spinner'
 import { useParams } from 'react-router-dom'
 import StravaWidgets from '../components/strava/StravaWidgets'
 import StravaStats from '../components/strava/StravaStats'
-import useStravaProfile from '../components/strava/strava-hooks/useStravaProfile'
+import useStrava from '../components/strava/strava-hooks/useStrava'
 
 const Strava = () => {
   const { userId } = useParams()
 
-  const [stravaProfile, checkTokens] = useStravaProfile(userId)
+  const stravaProfile = useStrava(userId)
 
   if (!stravaProfile) return <Spinner />
 
   return (
     <>
-      <StravaStats stravaProfile={stravaProfile} checkTokens={checkTokens} />
+      <StravaStats stravaProfile={stravaProfile} />
       <StravaWidgets stravaProfile={stravaProfile} />
     </>
   )

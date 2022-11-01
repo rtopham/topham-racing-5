@@ -7,7 +7,7 @@ import RaceTable from './RaceTable'
 import LastRace from './LastRace'
 import Filters from './Filters'
 
-import useStravaProfile from '../strava/strava-hooks/useStravaProfile'
+import useStrava from '../strava/strava-hooks/useStrava'
 
 const RacesByUser = () => {
   const { races, filtered } = useSelector((state) => state.races)
@@ -15,7 +15,7 @@ const RacesByUser = () => {
   const dispatch = useDispatch()
   const { userId } = useParams()
 
-  const [stravaProfile, checkTokens] = useStravaProfile(userId)
+  const stravaProfile = useStrava(userId)
 
   useEffect(() => {
     dispatch(getRacesByUser(userId))
@@ -29,11 +29,7 @@ const RacesByUser = () => {
     <>
       <LastRace race={races[0]} />
       <Filters races={races} />
-      <RaceTable
-        races={filtered}
-        stravaProfile={stravaProfile}
-        checkTokens={checkTokens}
-      />
+      <RaceTable races={filtered} stravaProfile={stravaProfile} />
     </>
   )
 }

@@ -3,7 +3,8 @@ const router = express.Router()
 const {
   getStravaProfile,
   getStravaProfileByUser,
-  updateStravaProfile
+  updateStravaProfile,
+  updateStravaTokens
 } = require('../controllers/stravaController')
 
 const { protect } = require('../middleware/authMiddleware')
@@ -17,8 +18,12 @@ router.route('/').get(protect, getStravaProfile)
 
 router.route('/by-user/:id').get(getStravaProfileByUser)
 
-//Update Strava Profile with update secret
+//Update Strava Profile
 
 router.route('/:id').put(updateStravaProfile)
+
+//Update Strava Tokens
+
+router.route('/tokens/:id').put(updateStravaTokens)
 
 module.exports = router

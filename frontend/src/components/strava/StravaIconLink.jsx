@@ -1,7 +1,8 @@
 import { Image } from 'react-bootstrap'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
-const StrravaIcon = ({ race, stravaProfile, checkTokens }) => {
+const StrravaIcon = ({ race, stravaProfile }) => {
   const { race_date } = race
 
   const theDate = new Date(race_date)
@@ -10,32 +11,33 @@ const StrravaIcon = ({ race, stravaProfile, checkTokens }) => {
   const onClick = async (e) => {
     e.preventDefault()
 
-    checkTokens()
-
     const config = {
       headers: {
         Authorization: `Bearer ${stravaProfile.strava_token}`
       }
     }
 
-    const res = await axios.get(
-      `https://www.strava.com/api/v3/athlete/activities?after=${theEpoch}&per_page=5`,
-      config
-    )
+    try {
+      const res = await axios.get(
+        `https://www.strava.com/api/v3/athlete/activities?after=${theEpoch}&per_page=5`,
+        config
+      )
+      const stravaRaces = res.data
+      let raceId = 0
+      let sufferScore = 0
+      let loopCount = stravaRaces.length
+      if (stravaRaces.length > 3) loopCount = 3
 
-    const stravaRaces = res.data
-    let raceId = 0
-    let sufferScore = 0
-    let loopCount = stravaRaces.length
-    if (stravaRaces.length > 3) loopCount = 3
-
-    for (var i = 0; i < loopCount; i++) {
-      if (stravaRaces[i].suffer_score > sufferScore) {
-        sufferScore = stravaRaces[i].suffer_score
-        raceId = stravaRaces[i].id
+      for (var i = 0; i < loopCount; i++) {
+        if (stravaRaces[i].suffer_score > sufferScore) {
+          sufferScore = stravaRaces[i].suffer_score
+          raceId = stravaRaces[i].id
+        }
       }
+      window.open(`https://www.strava.com/activities/${raceId}`)
+    } catch (error) {
+      toast('Unable to download Strava data')
     }
-    window.open(`https://www.strava.com/activities/${raceId}`)
   }
 
   if (new Date(race_date) > new Date('06-08-2010'))

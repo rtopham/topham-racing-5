@@ -4,7 +4,8 @@ import { extractErrorMessage } from '../../utils/extractErrorMessage'
 
 const initialState = {
   stravaProfile: null,
-  stravaData: null
+  stravaData: null,
+  stravaError: false
 }
 
 //Get StravaProfile for Logged in User
@@ -65,6 +66,19 @@ export const updateStravaProfile = createAsyncThunk(
   }
 )
 
+//Update Strava Tokens
+
+export const updateStravaTokens = createAsyncThunk(
+  'strava/updateTokens',
+  async (userId, thunkAPI) => {
+    try {
+      return await stravaService.updateStravaTokens(userId)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+  }
+)
+
 export const stravaSlice = createSlice({
   name: 'strava',
   initialState,
@@ -86,10 +100,16 @@ export const stravaSlice = createSlice({
       .addCase(getStravaData.fulfilled, (state, action) => {
         state.stravaData = action.payload
       })
+      .addCase(getStravaData.rejected, (state, action) => {
+        state.stravaError = true
+      })
       .addCase(updateStravaProfile.pending, (state) => {
         state.stravaProfile = null
       })
       .addCase(updateStravaProfile.fulfilled, (state, action) => {
+        state.stravaProfile = action.payload
+      })
+      .addCase(updateStravaTokens.fulfilled, (state, action) => {
         state.stravaProfile = action.payload
       })
   }

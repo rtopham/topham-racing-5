@@ -1,18 +1,21 @@
 import { useEffect } from 'react'
 import Spinner from '../shared/Spinner'
 import { getStravaData } from '../../features/strava/stravaSlice'
+import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import StravaStatsCard from './StravaStatsCard'
+import StravaError from './StravaError'
 
 const StravaStats = ({ stravaProfile, checkTokens }) => {
-  const { stravaData } = useSelector((state) => state.strava)
+  const { stravaData, stravaError } = useSelector((state) => state.strava)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    checkTokens()
-    dispatch(getStravaData(stravaProfile))
-  }, [dispatch, stravaProfile, checkTokens])
+    dispatch(getStravaData(stravaProfile)).unwrap().catch(toast.error)
+  }, [dispatch, stravaProfile])
+
+  if (stravaError) return <StravaError />
 
   if (!stravaData) return <Spinner />
 

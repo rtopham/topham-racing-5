@@ -53,10 +53,25 @@ const updateStravaProfile = async (userId, updatedFields, apiKey) => {
   return response.data
 }
 
+//Update Strava Tokens
+
+const updateStravaTokens = async (userId) => {
+  /*   const config = {
+    headers: {
+      api_key: apiKey
+    }
+  } */
+
+  const response = await axios.put(API_URL + 'tokens/' + userId)
+
+  return response.data
+}
+
 const stravaService = {
   getStravaProfile,
   getStravaProfileByUser,
   updateStravaProfile,
+  updateStravaTokens,
   getStravaData
 }
 
